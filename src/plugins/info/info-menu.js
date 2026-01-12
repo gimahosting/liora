@@ -147,7 +147,7 @@ async function main(conn, m, pkg, prefix, cmd, time) {
         `VPS Up  : ${upSys}`,
         `Bot Up  : ${upBot}`,
         "",
-        `Owner   : ${pkg.author?.name || "Naruya Izumi"}`,
+        `Owner   : ${pkg.author?.name || "Leon"}`,
         `Social  : https://linkbio.co/naruyaizumi`,
         "─".repeat(25),
         "Select category below",

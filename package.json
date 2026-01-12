@@ -28,6 +28,8 @@
         "async-mutex": "^0.5.0",
         "baileys": "github:naruyaizumi/baileys",
         "eventemitter3": "^5.0.1",
+        "fluent-ffmpeg": "^2.1.2",
+        "fs-extra": "^11.1.1",
         "p-queue": "^9.1.0"
     },
     "imports": {
