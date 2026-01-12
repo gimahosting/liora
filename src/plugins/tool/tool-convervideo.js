@@ -2,6 +2,7 @@ import ffmpeg from 'fluent-ffmpeg'
 import fs from 'fs-extra'
 import { tmpdir } from 'os'
 import { join } from 'path'
+import { execSync } from 'child_process'
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     // Validasi input
@@ -25,6 +26,21 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     try {
         await conn.reply(m.chat, '📥 *Mendownload video...*', m)
+
+        // Ensure ffmpeg binary available; try system ffmpeg first
+        try {
+            execSync('ffmpeg -version', { stdio: 'ignore' })
+        } catch (e) {
+            // Try to use bundled ffmpeg from ffmpeg-static if available
+            try {
+                const mod = await import('ffmpeg-static')
+                const ffmpegPath = mod?.default || mod
+                if (ffmpegPath) ffmpeg.setFfmpegPath(ffmpegPath)
+            } catch (e2) {
+                await conn.reply(m.chat, '❌ *ffmpeg tidak ditemukan.*\nPasang `ffmpeg` di sistem atau tambahkan dependency `ffmpeg-static` dan jalankan instalasi dependensi.', m)
+                return
+            }
+        }
         
         // Download video
         let media = await conn.downloadAndSaveMediaMessage(m.quoted || m, 'input_video')
